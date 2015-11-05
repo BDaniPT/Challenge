@@ -1,22 +1,23 @@
 //
-//  ViewController.m
+//  CustomNavigationController.m
 //  FixeAds Challenge
 //
-//  Created by Bruno Tavares on 03/11/15.
+//  Created by Bruno Tavares on 04/11/15.
 //  Copyright © 2015 Bruno Tavares. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "CustomNavigationController.h"
 
-@interface ViewController ()
+@interface CustomNavigationController ()
 
 @end
 
-@implementation ViewController
+@implementation CustomNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.title = @"Desafio FixeAds";
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "Ad.h"
+#import "ContainerViewController.h"
+#import "CustomNavigationController.h"
+#import "DetailViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +20,42 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    self.adArray = [NSMutableArray arrayWithCapacity:20];
+    
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    
+    ContainerViewController *container = [[ContainerViewController alloc] init];
+    
+    __block UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:container];
+    
+    [self.window setRootViewController:nc];
+    [self.window makeKeyAndVisible];
+    
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://olx.pt/i2/ads/?json=1&search%5bcategory_id%5d=25"]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSDictionary *adsJson = [json objectForKey:@"ads"];
+    
+    //NSLog([adsJson objectForKey:@"ads"]);
+    NSLog(@"test");
+    
+    for (NSDictionary *currentAd in adsJson) {
+        
+        Ad *ad = [[Ad alloc] init];
+        [ad getDataFromDictionary:currentAd];
+        [self.adArray addObject:ad];
+    }
+    
+    [container setAdArray: self.adArray];
+    
+    NSLog(@"Parsing done.");
+    
     return YES;
 }
 
